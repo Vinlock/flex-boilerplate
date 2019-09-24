@@ -6,4 +6,4 @@ WORKDIR /var/app
 
 RUN yarn global add nodemon
 
-CMD ["nodemon", "app/start.js"]
+CMD ["nodemon", "--debug=56745", "app/start.js"]
