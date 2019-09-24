@@ -37,5 +37,16 @@
   "scripts": {
     "dev": "export $(cat .env | xargs) && node app/start.js",
     "docker:dev": "docker-compose up --build"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      ".deployment/*",
+      ".dev/*",
+      "docker-compose.yml",
+      "yarn.lock",
+      ".gitignore",
+      ".git"
+    ],
+    "delay": "2000"
   }
 }
