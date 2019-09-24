@@ -1,16 +1,7 @@
 import http from 'http';
 import express from 'express';
-import helmet from 'helmet';
+import helmetMiddleware from './lib/ExpressMiddleware/helmetMiddleware';
 import routers from './routers';
-
-/** ENVIRONMENT VARIABLES */
-const {
-  APP_DISABLE_HELMET,
-  APP_DISABLE_HELMET_HSTS,
-  APP_DISABLE_HELMET_CACHE_CONTROL,
-  APP_DISABLE_HELMET_CROSS_DOMAIN,
-  APP_DISABLE_HELMET_HIDE_POWERED_BY,
-} = process.env;
 
 export default {
   /**
@@ -24,22 +15,8 @@ export default {
      */
     const app = express();
 
-    /** Middleware */
-    // Helmet Middleware
-    if (APP_DISABLE_HELMET !== 'true') {
-      if (APP_DISABLE_HELMET_HSTS !== 'true') {
-        app.use(helmet.hsts());
-      }
-      if (APP_DISABLE_HELMET_CACHE_CONTROL !== 'true') {
-        app.use(helmet.noCache());
-      }
-      if (APP_DISABLE_HELMET_CROSS_DOMAIN !== 'true') {
-        app.use(helmet.permittedCrossDomainPolicies());
-      }
-      if (APP_DISABLE_HELMET_HIDE_POWERED_BY !== 'true') {
-        app.use(helmet.hidePoweredBy());
-      }
-    }
+    /** Helmet Middleware */
+    app.use(helmetMiddleware());
 
     /** Express Routers */
     routers(app);
