@@ -1,0 +1,16 @@
+version: '3'
+  api:
+    image: node:latest
+    command: yarn dev
+    volumes:
+      - .:/var/app/
+    ports:
+      - 4000:4000
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    environment:
+      APP_MONGO_DB: mongodb://mongo:27017/dev
+  mongo:
+    image: mongo:latest
