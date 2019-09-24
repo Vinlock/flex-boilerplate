@@ -1,7 +1,9 @@
 version: '3'
+services:
   api:
-    image: node:latest
-    command: yarn dev
+    build:
+      context: .
+      dockerfile: ./.dev/Dockerfile
     volumes:
       - .:/var/app/
     ports:
@@ -12,5 +14,9 @@ version: '3'
       - mongo
     environment:
       APP_MONGO_DB: mongodb://mongo:27017/dev
+      APP_GRAPHQL_ENABLE_GRAPHIQL: "true"
+      APP_GRAPHQL_ENABLE_INTROSPECTION: "true"
+      APP_GRAPHIQL_POLLING_INTERVAL: 10000
+      APP_DEBUG_MODE: "true"
   mongo:
     image: mongo:latest
