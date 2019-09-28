@@ -11,6 +11,8 @@ restRouter.use(middleware({
   logging: 'rest_api',
 }));
 
-restRouter.get('/test', async (req, res) => res.json({ ping: 'pong' }));
+restRouter.get('/test', async (req, res) => {
+  return res.json({ ping: 'pong' })
+});
 
 export default restRouter;

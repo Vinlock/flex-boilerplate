@@ -24,6 +24,7 @@ import ExpectedError from '../utils/ExpectedError';
  * @param {Array<ErrorCode>} options.error.codes Error Codes
  * @param {boolean} [options.error.includeCommonCodes=true] Include Common Error Codes
  * @param {object} options.response Response Options
+ * @param {object} [options.response.type] Response Type
  * @param {string} options.response.desc Response Description
  * @param {object} options.response.fields Response GraphQL Fields
  * @param {object} options.input Input Options
@@ -47,8 +48,9 @@ const createMutation = (options) => {
       })).default([]),
     }),
     response: object().shape({
+      type: mixed(),
       description: string(),
-      fields: object().required(),
+      fields: object().default(() => {}),
     }),
     input: object().shape({
       desc: string(),
@@ -72,7 +74,7 @@ const createMutation = (options) => {
   options.error.codes.forEach((errorCode) => {
     errorCodes[errorCode.code] = {
       description: errorCode.desc,
-      value: errorCode.value,
+      value: errorCode.code,
     };
   });
   if (options.error.includeCommonCodes) {
@@ -90,11 +92,16 @@ const createMutation = (options) => {
   const errorType = ErrorType(`${name}Error`, errorCodesType);
 
   // Create Response Type
-  const responseType = new GraphQLObjectType({
-    name: `${name}Response`,
-    description: options.response.desc,
-    fields: options.response.fields,
-  });
+  let responseType = null;
+  if (!options.response.type) {
+    responseType = new GraphQLObjectType({
+      name: `${name}Response`,
+      description: options.response.desc,
+      fields: () => options.response.fields,
+    });
+  } else {
+    responseType = options.response.type;
+  }
 
   // Response Type
   const mutation = ResponseType({
@@ -107,7 +114,7 @@ const createMutation = (options) => {
   const input = new GraphQLInputObjectType({
     name: `${name}Input`,
     description: options.input.desc,
-    fields: options.input.fields,
+    fields: () => options.input.fields,
   });
 
   return {

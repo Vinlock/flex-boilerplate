@@ -8,15 +8,20 @@ services:
       - .:/var/app/
     ports:
       - 4000:4000
+      - 56745:56745
     depends_on:
       - mongo
     links:
       - mongo
     environment:
-      APP_MONGO_DB: mongodb://mongo:27017/dev
+      APP_MONGO_DB_URL: mongodb://mongo:27017/dev
+      APP_MONGO_DATABASE: dev
       APP_GRAPHQL_ENABLE_GRAPHIQL: "true"
       APP_GRAPHQL_ENABLE_INTROSPECTION: "true"
       APP_GRAPHIQL_POLLING_INTERVAL: 10000
       APP_DEBUG_MODE: "true"
   mongo:
     image: mongo:latest
+    container_name: aion-attendance_mongo
+    ports:
+      - 5000:27017

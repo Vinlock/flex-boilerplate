@@ -1,9 +1,12 @@
 import { GraphQLObjectType } from 'graphql';
+import createAccount from './createAccount';
 
 const RootMutation = new GraphQLObjectType({
-  name: 'Mutations',
+  name: 'Mutation',
   description: 'Mutations',
-  fields: () => ({}),
+  fields: () => ({
+    createAccount,
+  }),
 });
 
 export default RootMutation;

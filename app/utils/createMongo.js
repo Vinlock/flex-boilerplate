@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Logger from '../lib/Logger';
 
 const {
-  APP_MONGO_CONNECTION_STRING,
+  APP_MONGO_DB_URL,
   APP_MONGO_USERNAME,
   APP_MONGO_PASSWORD,
   APP_MONGO_REPLICA_SET,
@@ -12,7 +12,7 @@ const logger = new Logger({ name: 'mongo' });
 
 const createMongo = (database) => {
   // eslint-disable-next-line
-  const connectionString = APP_MONGO_CONNECTION_STRING;
+  const connectionString = APP_MONGO_DB_URL;
   const connectionOptions = {
     useNewUrlParser: true,
     useCreateIndex: true,

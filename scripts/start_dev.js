@@ -7,4 +7,6 @@ require('@babel/register')({
   ],
 });
 
-module.exports = require('./server.js');
+console.log('Starting Dev App...');
+
+module.exports = require('../app/server.js');

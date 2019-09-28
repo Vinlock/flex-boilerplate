@@ -1,6 +1,4 @@
-import createMongo from '../../utils/createMongo';
-
-const db = createMongo('dev');
+import db from '../../db/db';
 
 const dbMiddleware = () => (req, res, next) => {
   req.db = db;
